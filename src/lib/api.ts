@@ -1,6 +1,9 @@
-import { API_BASE_URL } from "./constants";
+import { API_BASE_URL } from './constants';
 
-export const fetchData = async (endpoint: string, options: any = {}) => {
+export const fetchData = async <T>(
+	endpoint: string,
+	options: any = {}
+): Promise<T> => {
 	const response = await fetch(`${API_BASE_URL}${endpoint}`, {
 		...options,
 		headers: {
@@ -11,5 +14,5 @@ export const fetchData = async (endpoint: string, options: any = {}) => {
 	if (!response.ok) {
 		throw new Error(`Error: ${response.status}`);
 	}
-	return response.json();
+	return response.json() as T;
 };

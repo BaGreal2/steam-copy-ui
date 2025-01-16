@@ -17,6 +17,8 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 const Home = lazy(() => import('./pages/home'));
 const Library = lazy(() => import('./pages/library'));
 const Developer = lazy(() => import('./pages/developer'));
+const Register = lazy(() => import('./pages/auth/register'));
+const Login = lazy(() => import('./pages/auth/login'));
 
 render(
 	() => (
@@ -24,6 +26,8 @@ render(
 			<Route path="/" component={Home} />
 			<Route path="/library" component={Library} />
 			<Route path="/developer" component={Developer} />
+			<Route path="/register" component={Register} />
+			<Route path="/login" component={Login} />
 		</Router>
 	),
 	root!

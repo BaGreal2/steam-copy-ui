@@ -7,33 +7,45 @@ interface Props extends Game {}
 const GameCard = ({
 	title,
 	genre,
+	description,
+	price,
 	developer,
 	release_date,
 	cover_image
 }: Props) => {
 	return (
-		<div class="w-96 h-80 p-3 bg-blue-950 group flex flex-col gap-4 rounded-md shadow-lg hover:shadow-xl duration-150 transition-all">
-			<div class="w-full h-2/3 rounded-md overflow-hidden">
+		<div class="group flex h-80 w-96 cursor-pointer flex-col gap-4 rounded-md bg-blue-950 p-3 shadow-lg transition-all duration-150 hover:shadow-xl">
+			<div class="relative h-1/2 w-full overflow-hidden rounded-md">
 				<img
 					src={cover_image}
-					class="w-full h-full object-cover group-hover:scale-105 object-center duration-300 ease-in-out transition-all"
+					class="h-full w-full object-cover object-center transition-all duration-300 ease-in-out group-hover:scale-105"
 					alt="Cover Image"
 				/>
+				<div class="rounded-xs absolute right-0 top-1 translate-x-full bg-black/50 px-2 py-1 text-xs text-white backdrop-blur-sm transition-all duration-300 group-hover:translate-x-0">
+					{genre}
+				</div>
 			</div>
-			<div class="grow flex flex-col justify-between">
-				<div class="w-full flex justify-between items-start">
-					<h1 class="text-lg leading-5 text-white font-semibold">{title}</h1>
-					<span class="text-xs leading-4 text-end text-white">{genre}</span>
-				</div>
-				<div class="flex flex-col">
-					<span class="text-sm font-medium text-white text-end">
-						{developer}
-					</span>
-					<span class="text-xs text-white text-end">
-						{format(new Date(release_date), 'MMM dd, yyyy')}
+			<div class="flex grow flex-col justify-between">
+				<div class="flex w-full items-center justify-between">
+					<h1 class="text-lg font-semibold leading-5 text-white">{title}</h1>
+					<span class="rounded-md bg-blue-700 px-2 py-1 text-end text-xs capitalize leading-4 text-white">
+						{price}
 					</span>
 				</div>
-				<button class="mt-2 bg-blue-800 w-full h-10 rounded-md text-white text-sm font-medium shadow-md hover:bg-blue-900 duration-150 transition-all">
+				<div class="mt-2 flex w-full justify-between">
+					<span class="line-clamp-2 max-h-8 overflow-hidden overflow-ellipsis text-sm leading-4 text-white">
+						{description}
+					</span>
+					<div class="flex w-40 flex-col">
+						<span class="text-end text-sm font-medium text-white">
+							{developer}
+						</span>
+						<span class="text-end text-xs text-white">
+							{format(new Date(release_date), 'MMM dd, yyyy')}
+						</span>
+					</div>
+				</div>
+				<button class="mt-2 h-10 w-full rounded-md bg-blue-800 text-sm font-medium text-white shadow-md transition-all duration-150 hover:bg-blue-900">
 					Buy Now
 				</button>
 			</div>

@@ -3,10 +3,11 @@ import { createResource, For } from 'solid-js';
 import GameCard from '@/components/game-card';
 
 import { fetchData } from '@/lib/api';
+import { Game } from '@/lib/types';
 
-const fetchGames = async () => {
+const fetchGames = async (): Promise<Game[] | undefined> => {
 	try {
-		const res = await fetchData('/games');
+		const res = await fetchData<Game[]>('/games');
 		return res;
 	} catch (error) {
 		console.error(error);
@@ -17,8 +18,8 @@ const Home = () => {
 	const [data] = createResource(fetchGames);
 
 	return (
-		<div class="p-4 grow h-full flex w-full bg-blue-900">
-			<div class="flex gap-6 h-fit flex-wrap w-full">
+		<div class="flex h-full w-full grow bg-blue-900 p-4">
+			<div class="flex h-fit w-full flex-wrap justify-center gap-6">
 				<For each={data()} fallback={<div>Loading...</div>}>
 					{(game) => <GameCard {...game} />}
 				</For>
