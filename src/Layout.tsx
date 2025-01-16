@@ -36,7 +36,13 @@ const Layout = ({ children }: Props) => {
 					<For each={NAV_LINKS}>{(navLink) => <NavLink {...navLink} />}</For>
 				</ul>
 				{user() ? (
-					<button class="size-10 cursor-pointer rounded-full bg-red-500" />
+					<div class="size-10 cursor-pointer overflow-hidden rounded-full">
+						<img
+							src={user()?.profile_image}
+							class="size-full object-cover object-center"
+							alt="Avatar"
+						/>
+					</div>
 				) : (
 					<ul class="flex items-center gap-6">
 						<NavLink href="/login" label="Login" />
