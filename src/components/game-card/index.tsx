@@ -1,10 +1,34 @@
+import { user } from '@/store/auth';
 import { format } from 'date-fns';
 
-import { Game } from '@/lib/types';
+import { fetchData } from '@/lib/api';
+import { BackendMessage, Game } from '@/lib/types';
+
+const buyGame = async (
+	userId: number,
+	gameId: number
+): Promise<BackendMessage | undefined> => {
+	try {
+		const message = await fetchData<BackendMessage>('/me/games', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				user_id: userId,
+				game_id: gameId
+			})
+		});
+		return message;
+	} catch (error) {
+		console.error(error);
+	}
+};
 
 interface Props extends Game {}
 
 const GameCard = ({
+	game_id,
 	title,
 	genre,
 	description,
@@ -13,8 +37,16 @@ const GameCard = ({
 	release_date,
 	cover_image
 }: Props) => {
+	const handleBuy = () => {
+		if (!user()?.user_id) {
+			return;
+		}
+
+		buyGame(Number(user()?.user_id), Number(game_id));
+	};
+
 	return (
-		<div class="group flex h-80 w-96 cursor-pointer flex-col gap-4 rounded-md bg-blue-950 p-3 shadow-lg transition-all duration-150 hover:shadow-xl">
+		<div class="group flex h-80 w-96 cursor-pointer flex-col gap-4 rounded-md bg-white/10 p-3 shadow-lg transition-all duration-150 hover:shadow-xl">
 			<div class="relative h-1/2 w-full overflow-hidden rounded-md">
 				<img
 					src={cover_image}
@@ -28,7 +60,7 @@ const GameCard = ({
 			<div class="flex grow flex-col justify-between">
 				<div class="flex w-full items-center justify-between">
 					<h1 class="text-lg font-semibold leading-5 text-white">{title}</h1>
-					<span class="rounded-md bg-blue-700 px-2 py-1 text-end text-xs capitalize leading-4 text-white">
+					<span class="rounded-md bg-black/30 px-2 py-1 text-end text-xs capitalize leading-4 text-white">
 						{price}
 					</span>
 				</div>
@@ -45,7 +77,10 @@ const GameCard = ({
 						</span>
 					</div>
 				</div>
-				<button class="mt-2 h-10 w-full rounded-md bg-blue-800 text-sm font-medium text-white shadow-md transition-all duration-150 hover:bg-blue-900">
+				<button
+					class="mt-2 h-10 w-full rounded-md bg-black/40 text-sm font-medium text-white shadow-md transition-all duration-150 hover:bg-black/20"
+					onClick={handleBuy}
+				>
 					Buy Now
 				</button>
 			</div>
