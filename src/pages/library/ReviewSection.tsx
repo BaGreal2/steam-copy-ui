@@ -1,4 +1,4 @@
-import { createSignal, For } from 'solid-js';
+import { createSignal, For, Show } from 'solid-js';
 
 import { user } from '@/store/auth';
 
@@ -30,10 +30,15 @@ const postReview = async (
 	}
 };
 
+const NoReviews = () => {
+	return <div class="text-2xl font-medium text-white">No reviews yet...</div>;
+};
+
 interface Props {
-	reviews: Review[];
+	reviews: Review[] | undefined;
 	refetch: () => void;
 	gameId: string;
+	isLoading: boolean;
 }
 
 const ReviewsSection = (props: Props) => {
@@ -86,24 +91,31 @@ const ReviewsSection = (props: Props) => {
 				</button>
 			</form>
 			<div class="flex flex-col gap-1">
-				<For
-					each={props.reviews.sort(
-						(a, b) =>
-							new Date(b.created_at).getTime() -
-							new Date(a.created_at).getTime()
-					)}
-					fallback={<div>Loading...</div>}
+				<Show
+					when={props.reviews && props.reviews.length !== 0 && !props.isLoading}
+					fallback={<NoReviews />}
 				>
-					{(review) => (
-						<div class="flex w-[500px] flex-col rounded-md bg-white/10 px-4 py-2">
-							<div class="flex justify-between text-lg">
-								<span class="font-medium">Anonymous</span>
-								<span>{review.rating} ★</span>
+					<For
+						each={props.reviews?.sort(
+							(a, b) =>
+								new Date(b.created_at).getTime() -
+								new Date(a.created_at).getTime()
+						)}
+						fallback={
+							<div class="text-2xl font-bold text-white">Loading...</div>
+						}
+					>
+						{(review) => (
+							<div class="flex w-[500px] flex-col rounded-md bg-white/10 px-4 py-2">
+								<div class="flex justify-between text-lg">
+									<span class="font-medium">{review.username}</span>
+									<span>{review.rating} ★</span>
+								</div>
+								<span class="text">{review.review_text}</span>
 							</div>
-							<span class="text">{review.review_text}</span>
-						</div>
-					)}
-				</For>
+						)}
+					</For>
+				</Show>
 			</div>
 		</div>
 	);

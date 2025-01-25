@@ -29,7 +29,7 @@ export interface Achievement {
 export interface Review {
   review_id: string;
   game_id: string;
-  user_id: string;
+  username: string;
   rating: string;
   review_text: string;
   created_at: string;

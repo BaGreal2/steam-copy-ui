@@ -1,11 +1,10 @@
 import { useNavigate } from '@solidjs/router';
 import {
-	createComputed,
 	createEffect,
 	createMemo,
 	createResource,
 	createSignal,
-	For
+	Show
 } from 'solid-js';
 
 import { user } from '@/store/auth';
@@ -18,7 +17,6 @@ import GameSection from './GameSection';
 
 const fetchLibrary = async (userId: number): Promise<Game[] | undefined> => {
 	try {
-		console.log('userId', userId);
 		const res = await fetchData<Game[]>(`/me/games?user_id=${userId}`);
 		return res;
 	} catch (error) {
@@ -27,9 +25,12 @@ const fetchLibrary = async (userId: number): Promise<Game[] | undefined> => {
 };
 
 const Library = () => {
-	const [data] = createResource(Number(user()?.user_id), fetchLibrary);
 	const navigate = useNavigate();
 	const [activeGameId, setActiveGameId] = createSignal<string | null>(null);
+	const [library, { refetch }] = createResource(
+		() => Number(user()?.user_id),
+		fetchLibrary
+	);
 
 	createEffect(() => {
 		if (!user()) {
@@ -37,22 +38,45 @@ const Library = () => {
 		}
 	});
 
+	createEffect(() => {
+		if (library() && !activeGameId()) {
+			const firstGame = library()?.[0];
+			if (firstGame) {
+				setActiveGameId(firstGame.game_id);
+			}
+		}
+	});
+
 	const handleGameChange = (gameId: string) => {
-		console.log('gameId', gameId);
 		setActiveGameId(gameId);
 	};
 
-	const activeGame = () => {
-		return data()?.find((game) => game.game_id === activeGameId());
-	};
+	const activeGame = createMemo(() => {
+		return library()?.find((game) => game.game_id === activeGameId());
+	});
 
 	return (
 		<div class="flex h-[calc(100vh-64px)] w-full grow bg-[#101010]">
-			<div class="h-full min-w-64 basis-1/4 max-w-72 bg-white/10">
-				<GameList games={data} onGameChange={handleGameChange} />
+			<div class="h-full min-w-64 max-w-72 basis-1/4 bg-white/10">
+				<Show
+					when={library() && !library.loading}
+					fallback={
+						<div class="text-lg font-medium text-white">
+							No Games in the Library yet.
+						</div>
+					}
+				>
+					<GameList
+						games={library()!}
+						activeGameId={activeGameId()}
+						onGameChange={handleGameChange}
+					/>
+				</Show>
 			</div>
 			<div class="h-full grow overflow-y-scroll">
-				{activeGame() && <GameSection game={activeGame()!} />}
+				<Show when={activeGame()}>
+					<GameSection game={activeGame()!} refetchLibrary={refetch} />
+				</Show>
 			</div>
 		</div>
 	);
