@@ -23,7 +23,7 @@ const PostedGameList = (props: Props) => {
 	};
 
 	return (
-		<div class="flex h-64 items-center gap-2 overflow-x-auto px-4 py-4">
+		<div class="flex h-72 items-center gap-2 overflow-x-auto px-4 py-4">
 			<button
 				class={cn(
 					'flex h-full w-44 shrink-0 flex-col items-center justify-center rounded-lg transition-all duration-300',
@@ -38,7 +38,7 @@ const PostedGameList = (props: Props) => {
 			<Show
 				when={(props.games && props.games.length !== 0) || props.isLoading}
 				fallback={
-					<div class="text-lg font-medium text-gray-400">
+					<div class="mx-auto text-lg font-medium text-gray-400">
 						No Games posted yet.
 					</div>
 				}
