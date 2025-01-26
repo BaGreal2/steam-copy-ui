@@ -11,18 +11,9 @@ interface NavLinkType {
 }
 
 const NAV_LINKS: NavLinkType[] = [
-	{
-		label: 'Home',
-		href: '/'
-	},
-	{
-		label: 'Library',
-		href: '/library'
-	},
-	{
-		label: 'Developer',
-		href: '/developer'
-	}
+	{ label: 'Home', href: '/' },
+	{ label: 'Library', href: '/library' },
+	{ label: 'Developer', href: '/developer' }
 ];
 
 interface Props {
@@ -31,7 +22,7 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
 	return (
-		<main class="flex min-h-screen w-full flex-col">
+		<main class="flex min-h-screen w-full flex-col bg-[#101010] text-white">
 			<nav class="fixed left-0 top-0 z-10 flex h-16 w-full items-center justify-between bg-white/10 px-10 shadow-lg backdrop-blur-md">
 				<ul class="flex items-center gap-6">
 					<For each={NAV_LINKS}>{(navLink) => <NavLink {...navLink} />}</For>
@@ -45,7 +36,7 @@ const Layout = ({ children }: Props) => {
 					</ul>
 				)}
 			</nav>
-			<div class="h-16 w-full bg-[#101010]" />
+			<div class="h-16 w-full" />
 			{children}
 		</main>
 	);

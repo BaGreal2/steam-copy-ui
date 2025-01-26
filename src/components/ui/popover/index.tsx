@@ -47,7 +47,13 @@ export const PopoverTrigger: Component<
 	};
 
 	return (
-		<button onClick={handleClick} class={cn('focus:outline-none', props.class)}>
+		<button
+			onClick={handleClick}
+			class={cn(
+				'rounded-full p-2 transition-all duration-200 hover:bg-white/10 focus:outline-none',
+				props.class
+			)}
+		>
 			{props.children}
 		</button>
 	);
@@ -62,7 +68,8 @@ export const PopoverMenu: Component<ParentProps<{ class?: string }>> = (
 		<Show when={isOpen()}>
 			<div
 				class={cn(
-					'absolute right-0 top-12 z-10 flex min-w-44 flex-col gap-1 rounded-md bg-black/50 px-2.5 py-2 shadow-md backdrop-blur-md',
+					'absolute right-0 top-12 z-10 flex min-w-48 flex-col gap-2 rounded-lg bg-[#1c1c1c] px-3 py-2 shadow-lg ring-1 ring-white/10',
+					'text-sm text-gray-300',
 					props.class
 				)}
 				onClick={close}
@@ -70,7 +77,7 @@ export const PopoverMenu: Component<ParentProps<{ class?: string }>> = (
 				{props.children}
 			</div>
 			<button
-				class="fixed left-0 top-0 z-0 size-full"
+				class="fixed left-0 top-0 z-0 h-full w-full cursor-default"
 				onClick={() => toggle()}
 			/>
 		</Show>

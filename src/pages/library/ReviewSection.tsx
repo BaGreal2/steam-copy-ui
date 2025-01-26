@@ -31,7 +31,7 @@ const postReview = async (
 };
 
 const NoReviews = () => {
-	return <div class="text-2xl font-medium text-white">No reviews yet...</div>;
+	return <div class="text-lg font-medium text-gray-400">No reviews yet...</div>;
 };
 
 interface Props {
@@ -62,18 +62,21 @@ const ReviewsSection = (props: Props) => {
 	};
 
 	return (
-		<div class="mt-4 flex flex-col gap-2 text-white">
-			<h1 class="text-2xl font-bold">Reviews</h1>
-			<form class="mb-2 flex w-[500px] gap-2" onSubmit={handleSubmit}>
+		<div class="mt-6 flex flex-col gap-4 text-white">
+			<h1 class="text-2xl font-semibold">Reviews</h1>
+			<form
+				class="mb-4 flex w-full max-w-[600px] gap-3"
+				onSubmit={handleSubmit}
+			>
 				<input
 					value={reviewText()}
 					onChange={(e) => setReviewText(e.currentTarget.value)}
 					type="text"
-					class="h-12 grow rounded-md bg-white/10 px-4 py-2"
+					class="flex-grow rounded-lg border border-gray-700 bg-[#2c2c2c] px-4 py-2 text-sm text-gray-300 placeholder-gray-500 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
 					placeholder="Write a review..."
 				/>
 				<select
-					class="h-12 grow cursor-pointer rounded-md bg-white/10 px-4 py-2"
+					class="rounded-lg border border-gray-700 bg-[#2c2c2c] px-4 py-2 text-sm text-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
 					value={rating()}
 					onChange={(e) => setRating(e.currentTarget.value)}
 				>
@@ -84,13 +87,13 @@ const ReviewsSection = (props: Props) => {
 					<option value="5">5 ★</option>
 				</select>
 				<button
-					class="h-12 w-24 rounded-md bg-blue-800 text-xl font-semibold text-white transition-all duration-300 hover:bg-blue-700"
+					class="w-28 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:bg-blue-500 hover:shadow-lg"
 					type="submit"
 				>
 					Submit
 				</button>
 			</form>
-			<div class="flex flex-col gap-1">
+			<div class="flex flex-col gap-3">
 				<Show
 					when={props.reviews && props.reviews.length !== 0 && !props.isLoading}
 					fallback={<NoReviews />}
@@ -102,16 +105,18 @@ const ReviewsSection = (props: Props) => {
 								new Date(a.created_at).getTime()
 						)}
 						fallback={
-							<div class="text-2xl font-bold text-white">Loading...</div>
+							<div class="text-lg font-medium text-gray-400">Loading...</div>
 						}
 					>
 						{(review) => (
-							<div class="flex w-[500px] flex-col rounded-md bg-white/10 px-4 py-2">
-								<div class="flex justify-between text-lg">
-									<span class="font-medium">{review.username}</span>
-									<span>{review.rating} ★</span>
+							<div class="flex w-full max-w-[600px] flex-col rounded-lg border border-gray-700 bg-[#2c2c2c] px-5 py-4 shadow-md hover:shadow-lg">
+								<div class="flex justify-between text-base text-gray-200">
+									<span class="font-semibold">{review.username}</span>
+									<span class="text-sm text-yellow-500">{review.rating} ★</span>
 								</div>
-								<span class="text">{review.review_text}</span>
+								<span class="mt-2 text-sm text-gray-400">
+									{review.review_text}
+								</span>
 							</div>
 						)}
 					</For>

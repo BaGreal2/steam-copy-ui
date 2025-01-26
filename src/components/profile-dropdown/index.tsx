@@ -24,7 +24,7 @@ const ProfileDropdown = ({ user }: Props) => {
 	return (
 		<PopoverProvider>
 			<Popover>
-				<PopoverTrigger class="size-10 cursor-pointer overflow-hidden rounded-full">
+				<PopoverTrigger class="size-10 overflow-hidden rounded-full p-0">
 					<img
 						src={user.profile_image}
 						class="size-full object-cover object-center"

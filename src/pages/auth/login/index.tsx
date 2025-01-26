@@ -43,7 +43,6 @@ const Login = () => {
 	const handleSubmit = async (e: SubmitEvent) => {
 		e.preventDefault();
 		const user = await login(username(), password());
-		console.log('user', user);
 		if (user) {
 			setUser(user);
 			localStorage.setItem('user', JSON.stringify(user));
@@ -52,18 +51,18 @@ const Login = () => {
 	};
 
 	return (
-		<div class="flex h-full w-full grow items-center justify-center bg-[#101010] text-white shadow-xl">
+		<div class="flex h-screen w-full items-center justify-center bg-[#101010] text-white">
 			<form
-				class="flex w-96 flex-col items-center rounded-lg bg-white/10 py-6"
+				class="flex w-[400px] flex-col items-center rounded-2xl bg-[#1c1c1c] px-6 py-8 shadow-lg"
 				onSubmit={handleSubmit}
 			>
-				<h1 class="text-2xl font-medium">Sign In</h1>
-				<div class="mt-3 flex flex-col gap-4">
+				<h1 class="text-2xl font-bold text-gray-100">Sign In</h1>
+				<div class="mt-5 flex w-full flex-col gap-4">
 					<input
 						value={username()}
 						onInput={(e) => setUsername(e.currentTarget.value)}
 						type="text"
-						class="h-10 w-80 rounded-md bg-black/50 p-2 text-white"
+						class="h-12 w-full rounded-md bg-[#2c2c2c] px-4 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500"
 						placeholder="Username"
 						required
 					/>
@@ -71,22 +70,20 @@ const Login = () => {
 						value={password()}
 						onInput={(e) => setPassword(e.currentTarget.value)}
 						type="password"
-						class="h-10 w-80 rounded-md bg-black/50 p-2 text-white"
+						class="h-12 w-full rounded-md bg-[#2c2c2c] px-4 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500"
 						placeholder="Password"
 						required
 					/>
 				</div>
-				<div class="mt-4 flex flex-col items-center">
-					<button
-						class="h-10 w-full rounded-md bg-black/40 px-4 text-lg font-medium text-white shadow-md transition-all duration-150 hover:bg-black/20"
-						type="submit"
-					>
-						Login
-					</button>
-					<A href="/register" class="mt-2 text-sm hover:underline">
-						Don't have an account? Register
-					</A>
-				</div>
+				<button
+					class="mt-6 w-full rounded-md bg-blue-600 px-4 py-2 text-lg font-medium text-white transition duration-300 hover:bg-blue-500"
+					type="submit"
+				>
+					Login
+				</button>
+				<A href="/register" class="mt-4 text-sm text-gray-400 hover:underline">
+					Don't have an account? Register
+				</A>
 			</form>
 		</div>
 	);

@@ -16,7 +16,7 @@ import { Achievement, BackendMessage, Game, Review } from '@/lib/types';
 import AchievementsSection from './AchievementsSection';
 import ReviewsSection from './ReviewSection';
 
-const fetchAchievements = async (
+export const fetchAchievements = async (
 	gameId: string
 ): Promise<Achievement[] | undefined> => {
 	try {
@@ -72,40 +72,39 @@ const GameSection = (props: Props) => {
 	);
 
 	const handleRemove = () => {
-		if (!user()?.user_id) {
-			return;
-		}
+		if (!user()?.user_id) return;
 
 		removeGame(Number(user()?.user_id), Number(props.game.game_id));
 		props.refetchLibrary();
 	};
 
 	return (
-		<div class="group flex size-full flex-col">
-			<div class="relative h-96 w-full shrink-0 overflow-hidden">
+		<div class="flex flex-col">
+			<div class="relative h-96 w-full overflow-hidden">
 				<img
 					src={props.game.cover_image}
 					alt={props.game.title}
-					class="relative z-0 h-96 w-full object-cover object-center transition-all duration-300 ease-in-out group-hover:scale-105"
+					class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
 				/>
-				<div class="absolute bottom-0 left-0 z-10 h-32 w-full bg-gradient-to-t from-black to-transparent transition-all duration-300 ease-in-out group-hover:h-24" />
+				<div class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/80" />
 			</div>
-			<div class="flex flex-col px-4 pb-4">
-				<div class="mt-4 flex justify-between">
-					<div class="flex items-center gap-5">
-						<button class="h-12 w-24 rounded-md bg-green-800 text-xl font-semibold text-white transition-all duration-300 hover:bg-green-700">
+
+			<div class="bg-[#1B1B1B] px-6 py-4">
+				<div class="flex items-center justify-between">
+					<div class="flex items-center gap-6">
+						<button class="h-12 rounded-md bg-green-600 px-6 text-lg font-semibold text-white shadow-sm transition-all hover:bg-green-500">
 							Play
 						</button>
-						<h1 class="text-4xl font-bold text-white">{props.game.title}</h1>
+						<h1 class="text-3xl font-bold">{props.game.title}</h1>
 					</div>
 					<PopoverProvider>
 						<Popover>
-							<PopoverTrigger>
-								<button class="flex size-10 items-center justify-center rounded-md bg-white/10 transition-all duration-300 hover:bg-white/15">
-									<MoreIcon class="size-6 text-white" />
+							<PopoverTrigger class="p-0">
+								<button class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-white hover:bg-gray-700">
+									<MoreIcon class="h-5 w-5" />
 								</button>
 							</PopoverTrigger>
-							<PopoverMenu class="bg-white/10">
+							<PopoverMenu>
 								<button
 									class="h-8 w-48 rounded-md px-4 text-start text-white transition-all duration-300 hover:bg-white/20"
 									onClick={handleRemove}
@@ -116,9 +115,9 @@ const GameSection = (props: Props) => {
 						</Popover>
 					</PopoverProvider>
 				</div>
-				<div class="mt-2 w-full">
-					<p class="text-xl font-medium text-white">{props.game.description}</p>
-				</div>
+
+				<p class="mt-4 text-gray-300">{props.game.description}</p>
+
 				<AchievementsSection
 					achievements={achievements()}
 					isLoading={achievements.loading}

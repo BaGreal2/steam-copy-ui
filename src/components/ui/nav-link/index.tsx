@@ -1,4 +1,4 @@
-import { A, useLocation, useMatch } from '@solidjs/router';
+import { A, useMatch } from '@solidjs/router';
 
 import { cn } from '@/lib/utils';
 
@@ -14,8 +14,8 @@ const NavLink = (props: Props) => {
 		<A
 			href={props.href}
 			class={cn(
-				'text-lg text-white hover:underline',
-				matches() ? 'underline' : 'no-underline'
+				'text-lg font-medium transition-all duration-200 hover:underline',
+				matches() ? 'text-white underline' : 'text-white/70'
 			)}
 		>
 			{props.label}

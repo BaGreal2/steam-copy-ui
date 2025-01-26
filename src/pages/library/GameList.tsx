@@ -12,18 +12,22 @@ interface Props {
 
 const GameList = (props: Props) => {
 	return (
-		<For
-			each={props.games}
-			fallback={<div class="text-lg font-medium text-white">Loading...</div>}
-		>
-			{(game) => (
-				<GameItem
-					game={game}
-					isActive={game.game_id === props.activeGameId}
-					onGameChange={props.onGameChange}
-				/>
-			)}
-		</For>
+		<div class="flex flex-col gap-2">
+			<For
+				each={props.games}
+				fallback={
+					<div class="text-lg font-medium text-gray-400">Loading...</div>
+				}
+			>
+				{(game) => (
+					<GameItem
+						game={game}
+						isActive={game.game_id === props.activeGameId}
+						onGameChange={props.onGameChange}
+					/>
+				)}
+			</For>
+		</div>
 	);
 };
 

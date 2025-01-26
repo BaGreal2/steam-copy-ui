@@ -15,7 +15,9 @@ import { Game } from '@/lib/types';
 import GameList from './GameList';
 import GameSection from './GameSection';
 
-export const fetchLibrary = async (userId: number): Promise<Game[] | undefined> => {
+export const fetchLibrary = async (
+	userId: number
+): Promise<Game[] | undefined> => {
 	try {
 		const res = await fetchData<Game[]>(`/me/games?user_id=${userId}`);
 		return res;
@@ -56,12 +58,12 @@ const Library = () => {
 	});
 
 	return (
-		<div class="flex h-[calc(100vh-64px)] w-full grow bg-[#101010]">
-			<div class="h-full min-w-64 max-w-72 basis-1/4 bg-white/10">
+		<div class="flex h-[calc(100vh-64px)] w-full grow bg-[#1B1B1B] text-white">
+			<div class="h-full min-w-64 max-w-72 basis-1/4 bg-[#252525] p-4">
 				<Show
 					when={library() && !library.loading}
 					fallback={
-						<div class="text-lg font-medium text-white">
+						<div class="text-lg font-medium text-gray-400">
 							No Games in the Library yet.
 						</div>
 					}
@@ -73,6 +75,7 @@ const Library = () => {
 					/>
 				</Show>
 			</div>
+
 			<div class="h-full grow overflow-y-scroll">
 				<Show when={activeGame()}>
 					<GameSection game={activeGame()!} refetchLibrary={refetch} />

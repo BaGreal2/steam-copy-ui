@@ -17,35 +17,56 @@ interface Props {
 const EditableField = (props: Props) => {
 	const [isEditing, setIsEditing] = createSignal(false);
 
+	const handleBlur = () => {
+		setIsEditing(false);
+		// TODO: Add API request or validation logic here when backend is integrated.
+	};
+
 	return (
-		<div class="flex w-full flex-col">
-			<h1 class="text-xl font-bold">{props.label}</h1>
-			<div class="flex w-full gap-1">
+		<div class="flex w-full flex-col gap-2">
+			<h1 class="text-lg font-semibold text-white/80">{props.label}</h1>
+			<div class="flex w-full items-center gap-2">
 				<Switch>
-					{/* TODO: Remove false and add request when add on backend */}
-					<Match when={isEditing() && false}>
+					{/* Editable input field */}
+					<Match when={isEditing()}>
 						<input
-							class={cn(
-								'w-full rounded-md bg-white/30 px-2 py-1',
-								props.inputClass
-							)}
 							value={props.value}
 							onInput={(e) =>
 								props.setValue((e.target as HTMLInputElement).value)
 							}
-							onBlur={() => setIsEditing(false)}
+							onBlur={handleBlur}
+							class={cn(
+								'w-full rounded-md bg-white/20 px-2 py-1 text-white outline-none focus:ring focus:ring-blue-400 transition-all duration-200',
+								props.inputClass
+							)}
+							placeholder={`Enter ${props.label.toLowerCase()}...`}
+							{...props.inputProps}
 						/>
-						<button onClick={() => setIsEditing(false)}>
-							<CloseIcon class="size-4 text-white/60" />
+						<button
+							type="button"
+							onClick={() => setIsEditing(false)}
+							class="p-1.5 rounded-md hover:bg-white/20 transition-all"
+							title="Cancel"
+						>
+							<CloseIcon class="size-4 text-white/70" />
 						</button>
 					</Match>
-					<Match when={!isEditing() && true}>
-						<h1 class={cn('w-full px-2 py-1', props.class)}>{props.value}</h1>
-						{/* 
-            <button onClick={() => setIsEditing(true)}>
-							<EditIcon class="size-4 text-white/60" />
-						</button> 
-            */}
+
+					{/* Read-only field with edit option */}
+					<Match when={!isEditing()}>
+						<h1 class={cn('w-full px-2 py-1 text-white/80', props.class)}>
+							{props.value || `No ${props.label.toLowerCase()} set`}
+						</h1>
+						{/* Edit button */}
+						{/* TODO: Uncomment this when backend supports edit */}
+						{/* <button
+							type="button"
+							onClick={() => setIsEditing(true)}
+							class="p-1.5 rounded-md hover:bg-white/20 transition-all"
+							title="Edit"
+						>
+							<EditIcon class="size-4 text-white/70" />
+						</button> */}
 					</Match>
 				</Switch>
 			</div>

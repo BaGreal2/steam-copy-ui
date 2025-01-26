@@ -18,9 +18,9 @@ const Home = () => {
 	const [data] = createResource(fetchGames);
 
 	return (
-		<div class="flex h-full w-full grow bg-[#101010] p-4">
-			<div class="flex h-fit w-full flex-wrap justify-center gap-6">
-				<For each={data()} fallback={<div>Loading...</div>}>
+		<div class="flex w-full grow flex-col items-center bg-[#101010] p-6">
+			<div class="flex w-full max-w-screen-xl flex-wrap justify-center gap-8">
+				<For each={data()} fallback={<div class="text-white">Loading...</div>}>
 					{(game) => <GameCard {...game} />}
 				</For>
 			</div>

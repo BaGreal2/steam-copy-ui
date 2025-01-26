@@ -7,11 +7,11 @@ interface Props {
 	onGameChange: (gameId: string) => void;
 }
 
-const GameItem = (props: Props) => {
+const PostedGameItem = (props: Props) => {
 	return (
 		<button
 			class={cn(
-				'flex w-full items-center rounded-lg px-4 py-2 transition-all duration-300',
+				'flex w-44 shrink-0 flex-col items-center rounded-lg px-4 py-3 transition-all duration-300',
 				props.isActive
 					? 'bg-[#3A3A3A] text-white shadow-md'
 					: 'bg-[#252525] text-gray-300 hover:bg-[#333333] hover:text-white'
@@ -21,11 +21,11 @@ const GameItem = (props: Props) => {
 			<img
 				src={props.game.icon_image}
 				alt={props.game.title}
-				class="h-10 w-10 rounded-md object-cover"
+				class="h-44 w-full rounded-md object-cover"
 			/>
-			<h3 class="ml-4 text-sm font-semibold">{props.game.title}</h3>
+			<h3 class="mt-2 font-semibold">{props.game.title}</h3>
 		</button>
 	);
 };
 
-export default GameItem;
+export default PostedGameItem;
