@@ -10,7 +10,7 @@ import AddAchievement from './AddAchievement';
 import PostGame from './PostGame';
 import PostedGameList from './PostedGameList';
 
-const fetchPosted = async (userId: number): Promise<Game[] | undefined> => {
+export const fetchPosted = async (userId: number): Promise<Game[] | undefined> => {
 	try {
 		const res = await fetchData<Game[]>(`/me/posted-games?user_id=${userId}`);
 		return res;

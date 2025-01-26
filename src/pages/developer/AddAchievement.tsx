@@ -3,10 +3,19 @@ import { createResource, createSignal, For, Show } from 'solid-js';
 import AchievementItem from '@/components/achievement-item';
 
 import { fetchData } from '@/lib/api';
-import { BackendMessage } from '@/lib/types';
+import { Achievement, BackendMessage } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
-import { fetchAchievements } from '../library/GameSection';
+const fetchAchievements = async (
+	gameId: string
+): Promise<Achievement[] | undefined> => {
+	try {
+		const res = await fetchData<Achievement[]>(`/achievements/game/${gameId}`);
+		return res;
+	} catch (error) {
+		console.error(error);
+	}
+};
 
 const postAchievement = async (
 	name: string,

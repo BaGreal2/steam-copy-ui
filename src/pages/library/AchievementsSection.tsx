@@ -6,7 +6,7 @@ import { Achievement } from '@/lib/types';
 
 const NoAchievements = () => {
 	return (
-		<div class="text-lg font-medium text-gray-400">No achievements yet...</div>
+		<div class="text-lg font-medium text-gray-400">No achievements aquired yet...</div>
 	);
 };
 

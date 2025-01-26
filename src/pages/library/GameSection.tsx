@@ -1,4 +1,4 @@
-import { createResource, Show } from 'solid-js';
+import { createResource } from 'solid-js';
 
 import MoreIcon from '@/icons/MoreIcon';
 import { user } from '@/store/auth';
@@ -17,11 +17,14 @@ import { Achievement, BackendMessage, Game, Review } from '@/lib/types';
 import AchievementsSection from './AchievementsSection';
 import ReviewsSection from './ReviewSection';
 
-export const fetchAchievements = async (
-	gameId: string
+const fetchUserAchievements = async (
+	gameId: number,
+	userId: number
 ): Promise<Achievement[] | undefined> => {
 	try {
-		const res = await fetchData<Achievement[]>(`/achievements/game/${gameId}`);
+		const res = await fetchData<Achievement[]>(
+			`/me/achievements/${gameId}?user_id=${userId}`
+		);
 		return res;
 	} catch (error) {
 		console.error(error);
@@ -63,9 +66,9 @@ interface Props {
 }
 
 const GameSection = (props: Props) => {
-	const [achievements] = createResource(
-		() => props.game.game_id,
-		fetchAchievements
+	const [userAchievements] = createResource(
+		() => [Number(props.game.game_id), Number(user()?.user_id)],
+		([gameId, userId]) => fetchUserAchievements(gameId, userId)
 	);
 	const [reviews, { refetch }] = createResource(
 		() => props.game.game_id,
@@ -133,8 +136,8 @@ const GameSection = (props: Props) => {
 				<p class="mt-4 text-gray-300">{props.game.description}</p>
 
 				<AchievementsSection
-					achievements={achievements()}
-					isLoading={achievements.loading}
+					achievements={userAchievements()}
+					isLoading={userAchievements.loading}
 				/>
 				<ReviewsSection
 					reviews={reviews()}
