@@ -1,4 +1,4 @@
-import { createResource, For } from 'solid-js';
+import { createResource, For, Show } from 'solid-js';
 
 import GameCard from '@/components/game-card';
 
@@ -20,9 +20,23 @@ const Home = () => {
 	return (
 		<div class="flex w-full grow flex-col items-center bg-[#101010] p-6">
 			<div class="flex w-full max-w-screen-xl flex-wrap justify-center gap-8">
-				<For each={data()} fallback={<div class="text-white">Loading...</div>}>
-					{(game) => <GameCard {...game} />}
-				</For>
+				<Show
+					when={(data() && data()?.length !== 0) || data.loading}
+					fallback={
+						<div class="text-lg font-medium text-gray-400">
+							Sorry, nothing here yet :(
+						</div>
+					}
+				>
+					<For
+						each={data()}
+						fallback={
+							<div class="text-lg font-medium text-gray-400">Loading...</div>
+						}
+					>
+						{(game) => <GameCard {...game} />}
+					</For>
+				</Show>
 			</div>
 		</div>
 	);
