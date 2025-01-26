@@ -95,7 +95,9 @@ const ReviewsSection = (props: Props) => {
 			</form>
 			<div class="flex flex-col gap-3">
 				<Show
-					when={props.reviews && props.reviews.length !== 0 && !props.isLoading}
+					when={
+						(props.reviews && props.reviews.length !== 0) || props.isLoading
+					}
 					fallback={<NoReviews />}
 				>
 					<For

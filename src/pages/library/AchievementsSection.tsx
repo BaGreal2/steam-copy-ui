@@ -22,9 +22,8 @@ const AchievementsSection = (props: Props) => {
 			<div class="flex flex-col gap-3">
 				<Show
 					when={
-						props.achievements &&
-						props.achievements.length !== 0 &&
-						!props.isLoading
+						(props.achievements && props.achievements.length !== 0) ||
+						props.isLoading
 					}
 					fallback={<NoAchievements />}
 				>

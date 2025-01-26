@@ -61,7 +61,7 @@ const Library = () => {
 		<div class="flex h-[calc(100vh-64px)] w-full grow bg-[#1B1B1B] text-white">
 			<div class="h-full min-w-64 max-w-72 basis-1/4 bg-[#252525] p-4">
 				<Show
-					when={library() && !library.loading}
+					when={(library() && library()?.length !== 0) || library.loading}
 					fallback={
 						<div class="text-lg font-medium text-gray-400">
 							No Games in the Library yet.

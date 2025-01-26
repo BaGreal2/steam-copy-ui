@@ -43,22 +43,14 @@ const Developer = () => {
 		<div class="flex w-full flex-col items-center bg-[#101010] p-6 text-white">
 			<h1 class="mb-8 text-3xl font-bold">Developer Dashboard</h1>
 			<div class="mb-8 w-full max-w-screen-lg rounded-md bg-white/10">
-				<Show
-					when={postedGames() && !postedGames.loading}
-					fallback={
-						<div class="text-lg font-medium text-gray-400">
-							No Games in the Library yet.
-						</div>
-					}
-				>
-					<PostedGameList
-						games={postedGames()!}
-						activeGameId={activeGameId()}
-						onGameChange={handleGameChange}
-						postingGame={postingGame()}
-						setPostingGame={setPostingGame}
-					/>
-				</Show>
+				<PostedGameList
+					games={postedGames()!}
+					activeGameId={activeGameId()}
+					isLoading={postedGames.loading}
+					onGameChange={handleGameChange}
+					postingGame={postingGame()}
+					setPostingGame={setPostingGame}
+				/>
 			</div>
 
 			<Show when={postingGame()}>

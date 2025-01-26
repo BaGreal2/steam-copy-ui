@@ -11,7 +11,7 @@ const PostedGameItem = (props: Props) => {
 	return (
 		<button
 			class={cn(
-				'flex w-44 shrink-0 flex-col items-center rounded-lg px-4 py-3 transition-all duration-300',
+				'flex h-full w-44 shrink-0 flex-col items-center rounded-lg px-4 py-3 transition-all duration-300',
 				props.isActive
 					? 'bg-[#3A3A3A] text-white shadow-md'
 					: 'bg-[#252525] text-gray-300 hover:bg-[#333333] hover:text-white'

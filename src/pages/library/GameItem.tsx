@@ -23,7 +23,7 @@ const GameItem = (props: Props) => {
 				alt={props.game.title}
 				class="h-10 w-10 rounded-md object-cover"
 			/>
-			<h3 class="ml-4 text-sm font-semibold">{props.game.title}</h3>
+			<h1 class="ml-4 text-sm text-start font-semibold">{props.game.title}</h1>
 		</button>
 	);
 };
