@@ -15,7 +15,7 @@ import { Game } from '@/lib/types';
 import GameList from './GameList';
 import GameSection from './GameSection';
 
-const fetchLibrary = async (userId: number): Promise<Game[] | undefined> => {
+export const fetchLibrary = async (userId: number): Promise<Game[] | undefined> => {
 	try {
 		const res = await fetchData<Game[]>(`/me/games?user_id=${userId}`);
 		return res;

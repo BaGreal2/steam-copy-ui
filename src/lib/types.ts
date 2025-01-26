@@ -14,7 +14,6 @@ export interface User {
 	user_id: string;
 	username: string;
 	email: string;
-	password: string;
 	profile_image: string;
 }
 

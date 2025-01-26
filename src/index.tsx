@@ -19,6 +19,7 @@ const Library = lazy(() => import('./pages/library'));
 const Developer = lazy(() => import('./pages/developer'));
 const Register = lazy(() => import('./pages/auth/register'));
 const Login = lazy(() => import('./pages/auth/login'));
+const Profile = lazy(() => import('./pages/auth/profile'));
 
 render(
 	() => (
@@ -28,6 +29,7 @@ render(
 			<Route path="/developer" component={Developer} />
 			<Route path="/register" component={Register} />
 			<Route path="/login" component={Login} />
+			<Route path="/profile" component={Profile} />
 		</Router>
 	),
 	root!
