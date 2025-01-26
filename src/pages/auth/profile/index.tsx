@@ -2,9 +2,40 @@ import { useNavigate } from '@solidjs/router';
 import { createEffect, createResource, createSignal, Show } from 'solid-js';
 
 import { fetchLibrary } from '@/pages/library';
-import { user } from '@/store/auth';
+import { setUser, user } from '@/store/auth';
+
+import { fetchData } from '@/lib/api';
+import { User } from '@/lib/types';
 
 import EditableField from './EditableField';
+
+const patchUser = async (
+	userId: number,
+	username?: string,
+	email?: string
+): Promise<User | undefined> => {
+	try {
+		const body: Record<string, string> = {};
+
+		if (username !== undefined) {
+			body.username = username;
+		}
+		if (email !== undefined) {
+			body.email = email;
+		}
+
+		const newUser = await fetchData<User>(`/me?user_id=${userId}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(body)
+		});
+		return newUser;
+	} catch (error) {
+		console.error(error);
+	}
+};
 
 const Profile = () => {
 	const navigate = useNavigate();
@@ -24,6 +55,22 @@ const Profile = () => {
 		return (
 			localUsername() !== user()?.username || localEmail() !== user()?.email
 		);
+	};
+
+	const handleSave = async () => {
+		if (!hasChanges() || !user()?.user_id) {
+			return;
+		}
+
+		const newUser = await patchUser(
+			Number(user()?.user_id),
+			localUsername() !== user()?.username ? localUsername() : undefined,
+			localEmail() !== user()?.email ? localEmail() : undefined
+		);
+
+		if (newUser) {
+			setUser(newUser);
+		}
 	};
 
 	return (
@@ -61,7 +108,10 @@ const Profile = () => {
 							</span>
 						</Show>
 						<Show when={hasChanges()}>
-							<button class="mt-3 h-10 w-28 rounded-md bg-blue-600 text-lg font-medium text-white transition duration-300 hover:bg-blue-500">
+							<button
+								class="mt-3 h-10 w-28 rounded-md bg-blue-600 text-lg font-medium text-white transition duration-300 hover:bg-blue-500"
+								onClick={handleSave}
+							>
 								Save
 							</button>
 						</Show>

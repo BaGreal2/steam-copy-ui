@@ -19,7 +19,6 @@ const EditableField = (props: Props) => {
 
 	const handleBlur = () => {
 		setIsEditing(false);
-		// TODO: Add API request or validation logic here when backend is integrated.
 	};
 
 	return (
@@ -27,7 +26,6 @@ const EditableField = (props: Props) => {
 			<h1 class="text-lg font-semibold text-white/80">{props.label}</h1>
 			<div class="flex w-full items-center gap-2">
 				<Switch>
-					{/* Editable input field */}
 					<Match when={isEditing()}>
 						<input
 							value={props.value}
@@ -36,7 +34,7 @@ const EditableField = (props: Props) => {
 							}
 							onBlur={handleBlur}
 							class={cn(
-								'w-full rounded-md bg-white/20 px-2 py-1 text-white outline-none focus:ring focus:ring-blue-400 transition-all duration-200',
+								'w-48 rounded-md bg-white/20 px-2 py-1 text-white outline-none transition-all duration-200 focus:ring focus:ring-blue-400',
 								props.inputClass
 							)}
 							placeholder={`Enter ${props.label.toLowerCase()}...`}
@@ -45,28 +43,25 @@ const EditableField = (props: Props) => {
 						<button
 							type="button"
 							onClick={() => setIsEditing(false)}
-							class="p-1.5 rounded-md hover:bg-white/20 transition-all"
+							class="rounded-md p-1.5 transition-all hover:bg-white/20"
 							title="Cancel"
 						>
 							<CloseIcon class="size-4 text-white/70" />
 						</button>
 					</Match>
 
-					{/* Read-only field with edit option */}
 					<Match when={!isEditing()}>
-						<h1 class={cn('w-full px-2 py-1 text-white/80', props.class)}>
+						<h1 class={cn('w-48 px-2 py-1 text-white/80', props.class)}>
 							{props.value || `No ${props.label.toLowerCase()} set`}
 						</h1>
-						{/* Edit button */}
-						{/* TODO: Uncomment this when backend supports edit */}
-						{/* <button
+						<button
 							type="button"
 							onClick={() => setIsEditing(true)}
-							class="p-1.5 rounded-md hover:bg-white/20 transition-all"
+							class="rounded-md p-1.5 transition-all hover:bg-white/20"
 							title="Edit"
 						>
 							<EditIcon class="size-4 text-white/70" />
-						</button> */}
+						</button>
 					</Match>
 				</Switch>
 			</div>
