@@ -8,6 +8,7 @@ export interface Game {
 	cover_image: string;
 	icon_image: string;
 	release_date: string;
+  has_game: string;
 }
 
 export interface User {
